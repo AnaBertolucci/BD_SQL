@@ -53,7 +53,10 @@ alter table tb_vendas
       ADD CONSTRAINT fk_vda_cli
       FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente)
       go 
-
+create table tb_vendas_canceladas(
+       id_v_cancelada int unique identity(1,1),
+       id_venda int not null)
+       go
 alter table tb_vendas_itens
 	ADD CONSTRAINT fk_vda_venda 
 	FOREIGN KEY (id_venda) REFERENCES tb_vendas(id_venda)
@@ -66,6 +69,10 @@ alter table tb_vendas_itens
 	ADD CONSTRAINT fk_vda_hardware2
 	FOREIGN KEY (id_hardware) REFERENCES tb_hardware(id_hardware)
 	go
+alter table tb_vendas_canceladas
+      ADD CONSTRAINT fk_vendas_canceladas
+      FOREIGN KEY (id_venda) REFERENCES tb_vendas(id_venda)
+      go
 	
 	INSERT INTO tb_clientes (nome, endereco, idade, sexo, fone, email)
 VALUES ('Guilherme Teixeira', 'Rua Anita Garibald 12', '30', 'M', '(11)98827-4190', 'guilherme@icloud.com'),
@@ -102,7 +109,9 @@ VALUES ('8', '1','1', '12.00'),
 	   ('12', '5', '5', '45.00')
 	   
 	   go
-  
+  insert into tb_vendas_canceladas values
+        ('4');
+        go
 	   SELECT * FROM tb_clientes
 	   SELECT * FROM tb_hardware
 	   SELECT * FROM tb_vendas

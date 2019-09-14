@@ -28,7 +28,7 @@ create table tb_hardware(
        preco_unit decimal NOT NULL,
        qtde_atual int NOT NULL, --0 caso nao tenha no estoque
        qtde_minima int,
-       img image DEFAULT NULL
+        
 )
 GO
 
@@ -92,9 +92,10 @@ VALUES ('1', '1','1', '12.00'),
       FOREIGN KEY (id_cliente) REFERENCES tb_clientes(id_cliente)
       go 
 create table tb_vendas_canceladas(
-       id_v_cancelada int unique identity(1,1),
-       id_venda int not null)
+       id_v_cancelada int primary key identity,
+       id_venda int unique)
        go
+       
 alter table tb_vendas_itens
 	ADD CONSTRAINT fk_vda_venda 
 	FOREIGN KEY (id_venda) REFERENCES tb_vendas(id_venda)
@@ -113,18 +114,18 @@ alter table tb_vendas_canceladas
       go
       
 	   SELECT * FROM tb_clientes
-	   SELECT * FROM tb_hardware
-	   SELECT * FROM tb_vendas
 	   SELECT * FROM tb_vendas_itens
+	   SELECT * FROM tb_vendas
+	   SELECT * FROM tb_hardware
 	   
 	   SELECT v.id_venda, c.nome as nome_cliente FROM tb_vendas as v
 	   INNER JOIN tb_clientes as c
 	   ON v.id_cliente = c.id_cliente
 	   
 	   SELECT * FROM tb_clientes as c
-	   LEFT JOIN tb_vendas as v 
+	  left JOIN tb_vendas as v 
 	   ON c.id_cliente = v.id_cliente
-	   
+	   wHERE v.id_cliente is null
 	   
 	   SELECT * FROM tb_hardware as v
 	   LEFT JOIN tb_vendas_itens as vi
@@ -134,3 +135,6 @@ alter table tb_vendas_canceladas
 	  -- P1 Nome do cliente que fez cada uma das compras/venda
 	  -- P2 Nome dos clientes que não fizeram compras/vendas
 	  -- P3 Produtos que não foram vendidos
+	  
+	  
+	  
